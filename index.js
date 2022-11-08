@@ -13,9 +13,9 @@ $(document).keypress(function (e) {
 });
 
 $(".btn").click(function () {
-    flashButton(this);
-    playSound(this);
     if (gameStart) {
+        flashButton(this);
+        playSound(this);
         game.pressButton(this.id);
     }
 })
@@ -26,12 +26,10 @@ for (var button in buttonNumLookup) {
 buttonAudio['wrong'] = new Audio("sounds/wrong.mp3");
 
 function flashButton(button) {
-    if (gameStart) {
-        $(button).addClass("pressed");
-        setTimeout(function (e) {
-            $(e).removeClass("pressed");
-        }, 100, $(button)); //pass this to setTimeout callback
-    }
+    $(button).addClass("pressed");
+    setTimeout(function (e) {
+        $(e).removeClass("pressed");
+    }, 100, $(button)); //pass this to setTimeout callback
 }
 
 function playSound(button) {
