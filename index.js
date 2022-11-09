@@ -14,8 +14,6 @@ $(document).keypress(function (e) {
 
 $(".btn").click(function () {
     if (gameStart) {
-        flashButton(this);
-        playSound(this);
         game.pressButton(this.id);
     }
 })
@@ -25,11 +23,15 @@ for (var button in buttonNumLookup) {
 }
 buttonAudio['wrong'] = new Audio("sounds/wrong.mp3");
 
-function flashButton(button) {
+function flashButtonFancy(button) {
     $(button).addClass("pressed");
     setTimeout(function (e) {
         $(e).removeClass("pressed");
     }, 100, $(button)); //pass this to setTimeout callback
+}
+
+function flashButton(button) {
+    $(button).fadeTo(100, 0.2).fadeTo(100, 1.0);
 }
 
 function playSound(button) {
@@ -57,6 +59,10 @@ function Game() {
         gameStart = false;
         $("title").text("Game Over");
         $("#level-title").text("Game Over");
+        $("body").addClass("game-over");
+        setTimeout(function () {
+            $("body").removeClass("game-over");
+        }, 200);
         buttonAudio['wrong'].currentTime = 0;
         buttonAudio['wrong'].play();
     }
@@ -68,6 +74,12 @@ function Game() {
         else if (this.userPattern.length === this.pattern.length) {
             this.userPattern = [];
             this.nextLevel();
+            flashButtonFancy($('#' + buttonID));
+            playSound($('#' + buttonID));
+        }
+        else {
+            flashButtonFancy($('#' + buttonID));
+            playSound($('#' + buttonID));
         }
         console.log(this.userPattern);
     }
